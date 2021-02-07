@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+<!-- Se extiende la base.html porque esa será la plantilla base-->
+<!-- y en ella se van a insertar los bloques de código de esta-->
+{% import 'macros.html' as macros %}
+<!-- Se importa macros.html porque de esa se van a insertar bloques de codigos-->
+<!--a estos bloques se les conoce como marcos-->
+
+
+{% block title %}
+    {{ super() }}
+    Bienvenido
+{% endblock %}
+
+{% block content %}
+
+    {% if user_ip %}
+        <h1>Hello world platzi, your ip is {{user_ip}}</h1>
+    {% else %}
+        <a href="{{ url_for('index') }}">Ir a inicio</a>
+    {% endif %}
+
+    <ul>
+        {% for todo in todos %}
+        {{ macros.render_todo(todo) }} 
+        {% endfor %}
+    </ul>
+
+{% endblock  %}

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
+    <!-- Contenido de bloque cuando se extiende esta plantilla en otra -->
+    <title>
+        {% block title %}Flask Platzi |{% endblock %}
+    </title>
+</head>
+
+<body>
+    <header>
+        {% include 'navbar.html'%}
+    </header>
+    <!-- Contenido de bloque cuando se extiende esta plantilla en otra-->
+    {% block content %} {% endblock %}
+</body>
+
+</html>
