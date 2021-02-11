@@ -7,5 +7,7 @@ export FLASK_APP=main.py
 export FLASK_DEBUG=1
 # FLASK_DEBUG es para activar el modo debugger, y así no tener que apagar
 # y prender el server cada vez que se efectúe un cambio
-
+export FLASK_ENV=development
+# Se usa para activar el modo development de flask ya que por defecto
+# es modo production
 flask run

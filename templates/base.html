@@ -1,22 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'bootstrap/base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block head %}
+    {{super()}}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
     <!-- Contenido de bloque cuando se extiende esta plantilla en otra -->
     <title>
         {% block title %}Flask Platzi |{% endblock %}
     </title>
-</head>
+{% endblock head %}
 
-<body>
-    <header>
+{% block body %}
+    {% block navbar %}
         {% include 'navbar.html'%}
-    </header>
-    <!-- Contenido de bloque cuando se extiende esta plantilla en otra-->
-    {% block content %} {% endblock %}
-</body>
+    {% endblock navbar %}
 
-</html>
+    {# get_flashed_messages() es una funcion que trae por defecto para obtener #}
+    {# todos los mensajes emergentes conocidos como mensajes flash #}
+    {% for message in get_flashed_messages() %}
+        {# Bootstrap 4#}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                &times;
+            </button>
+            {# El mensaje que se mandó en el flash #}
+            {{ message }}
+        </div>
+        <!-- Bootstrap3
+            <div class="alert alert-success alert-dismissable">
+            <button type="button" data-dismiss="alert" class="close"> &times; </button>
+            {{ message }}
+        </div-->
+    {% endfor %}
+
+    <!-- Contenido de bloque cuando se extiende esta plantilla en otra-->
+    {% block content %}{% endblock %}
+
+    
+    {# Super necesario para poder importar los scripts y de este modo #}
+    {# cerrar las ventanas emergentes #}
+    {% block scripts %}
+        {{super()}}
+    {% endblock %}
+{% endblock body %}
