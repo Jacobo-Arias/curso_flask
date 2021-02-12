@@ -1,6 +1,5 @@
-from flask import Flask, request, make_response, redirect, render_template, url_for
-from flask import flash
-# flash es para los mensajes emergentes o flash messages
+from flask import request, make_response, redirect, render_template, url_for
+
 from flask import session 
 # se importa session el cual se utiliza para guardar, a traves de varias peticiones,
 # información de manera segura, como las cookies que las encripta
@@ -8,23 +7,16 @@ from flask_bootstrap import Bootstrap
 # flask bootstrap es basicamente para darle diseño y funciona con el framework bootstrap
 # en este caso tengo instalados flask_bootstrap y flask_bootstrap4 y si desisntalo
 # uno de ellos no funicona no se por que
-from flask_wtf import FlaskForm
-from wtforms.fields import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired
 import unittest
+from app.forms import LoginForm
 
-app = Flask(__name__) #esta es la linea 3
-bootstrap = Bootstrap(app)
+from app import create_app
 
-app.config['SECRET_KEY'] = 'SUPER SECRETO'
+app = create_app()
 
 todos = ['Comprar café','Enviar solicitud','Enviar productos']
 
 
-class LoginForm(FlaskForm):
-    username = StringField('Nombre Usuario', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Enviar ')
 
 # Se crea el comando en la consola de comandos con la librería cli que viene
 # en la app, dicha linea es test y se corre flask test y así correr los tests
@@ -59,7 +51,7 @@ def index():
 
     return response
 
-@app.route('/hello', methods = ['GET','POST']) #Este decorador es de la variable app de la linea 3
+@app.route('/hello', methods = ['GET']) #Este decorador es de la variable app de la linea 3
 def hello():
     # Obtiene la ip del usuario de las session con el nombre/identificador
     # "user_ip"
@@ -71,20 +63,19 @@ def hello():
     context = {
         'user_ip': user_ip,
         'todos': todos,
-        'login_form': login_form,
         'username':username
     }
 
-    if login_form.validate_on_submit():
-        username = login_form.username.data
-        session['username'] = username
+    # if login_form.validate_on_submit():
+    #     username = login_form.username.data
+    #     session['username'] = username
 
-        # Envia un nuevo mensaje flash (emergente) y en la plantilla base se accede
-        # a este con el metodo get_flashed_messages
-        flash("Usuario registrado correctamente")
+    #     # Envia un nuevo mensaje flash (emergente) y en la plantilla base se accede
+    #     # a este con el metodo get_flashed_messages
+    #     flash("Usuario registrado correctamente")
 
-        return redirect(url_for('index'))
-        #si hay un submit efectivo redirecciona a index para que cargue toda la informacion
+    #     return redirect(url_for('index'))
+    #     #si hay un submit efectivo redirecciona a index para que cargue toda la informacion
 
     return render_template('hello.html', **context)
     # Renderiza el template de la carpeta templates y se le manda 

@@ -37,10 +37,35 @@ class MainTest(TestCase):
     # por eso se crea un fake form y se manda como el parametro data
     # al metodo post de client
     def test_hello_post(self):
-        fake_form = {'username':'fake',
-                    'password' : 'fake-password'}
-        response = self.client.post(url_for('hello'),data=fake_form)
-        self.assertRedirects(response,url_for('index'))
+        response = self.client.post(url_for('hello'))
+        self.assertTrue(response.status_code, 405)
+
+
+    def test_auth_blueprin_exist(self):
+        # Que efectivamente exista un blueprint llamado auth
+        self.assertIn('auth', self.app.blueprints)
+
+    def test_auth_login_get(self):
+        self.client.get(url_for('auth.login'))
+        # No se guarda la petición en la variable response porque con llamarla
+        # y mediante el paquete blinker por debja identifica que el template usado
+        # si fue login.html, por eso solo hay que mandarle un parametro
+        # el cual es el nombre del template
+        self.assertTemplateUsed('login.html')
+
+    def test_auth_login_template(self):
+        self.client.get(url_for('auth.login'))
+
+        self.assertTemplateUsed('login.html')
+
+    def test_auth_login_post(self):
+        fake_form = {
+            'username':'fake',
+            'password' : 'fake-password'
+            }
+        
+        response = self.client.post(url_for('auth.login'), data = fake_form)
+        self.assertRedirects(response, url_for('index'))
 
     #* Para esto debo tener instalado el blinker    
     # def test_user_registered_flashed_message(self):

@@ -25,16 +25,6 @@
         <a href="{{ url_for('index') }}">Ir a inicio</a>
     {% endif %}
 
-    <div class="container">
-        <!-- <form action="{{ url_for('hello') }}" method = 'POST'>
-            {{ login_form.username }}
-            {{ login_form.username.label }}
-        </form> -->
-    {# wtf.quick_form es una forma de renderear todo el form mas facil y rapido, #}
-    {# ya que solo hay que pasarle el form completo y reconoce los elementos y #} 
-    {# los renderea----Mirar en la documentacion mas informacion #}
-        {{ wtf.quick_form(login_form) }}
-    </div>
 
     <ul>
         {% for todo in todos %}
