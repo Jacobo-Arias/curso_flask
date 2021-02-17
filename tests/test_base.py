@@ -68,11 +68,11 @@ class MainTest(TestCase):
         self.assertRedirects(response, url_for('index'))
 
     #* Para esto debo tener instalado el blinker    
-    # def test_user_registered_flashed_message(self):
-    #     fake_form = {
-    #         'username': 'vijoin',
-    #         'password': '123456'
-    #     }
-    #     self.client.post(url_for('index'), data=fake_form)
-    #     message = 'Usuario registrado correctamente'
-    #     self.assertMessageFlashed(message)
+    def test_user_registered_flashed_message(self):
+        fake_form = {
+            'username': 'vijoin',
+            'password': '123456'
+        }
+        self.client.post(url_for('auth.login'), data=fake_form)
+        message = 'Usuario registrado correctamente'
+        self.assertMessageFlashed(message)
