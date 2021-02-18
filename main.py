@@ -12,12 +12,13 @@ import unittest
 from flask_login import login_required, current_user
 from app.forms import TodoForm, DeleteToDoForm, UpdateToDoForm
 
-from app.firestore_service import update_todo, get_todos, put_todo, delete_todo
-
+# from app.firestore_service import update_todo, get_todos, put_todo, delete_todo
+from app.mongo_services import update_todo, get_todos, put_todo, delete_todo
+from flask_pymongo import PyMongo
 from app import create_app
 
 app = create_app()
-
+# mongo = PyMongo(app)
 
 
 # Se crea el comando en la consola de comandos con la librería cli que viene
@@ -90,13 +91,13 @@ def hello():
 @app.route('/todos/delete/<todo_id>',methods=['GET','POST'])
 def delete(todo_id):
     user_id = current_user.id
-    delete_todo(user_id=user_id, todo_id=todo_id)
+    delete_todo(user_id=user_id, todo_id=int(todo_id))
     return redirect(url_for('hello'))
 
 @app.route('/todos/update/<todo_id>/<int:done>',methods=['GET','POST'])
 def update(todo_id, done):
     user_id = current_user.id
-    update_todo(user_id=user_id,todo_id=todo_id,done=done)
+    update_todo(user_id=user_id,todo_id=int(todo_id),done=done)
     
     return redirect(url_for('hello'))    
 

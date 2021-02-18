@@ -2,8 +2,8 @@
 
 {% macro render_todo(todo, delete_form, update_form) %}
     <li class="list-group-item">
-        Descripción: {{ todo.to_dict()['description'] | capitalize }}
-        {%if todo.to_dict().done %}
+        Descripción: {{ todo['description'] | capitalize }}
+        {%if todo['done'] %}
             <span class="badge badge-success badge-pill">
                 Done
             </span>
@@ -18,12 +18,12 @@
         ya que el detele form es un formulario, y se necesita el metodo POST
         mientras que con la forma de abajo es un get-->
         <span class="p-2">
-            <a href="{{url_for('delete', todo_id=todo.id)}}" class="btn d-inline btn-outline-danger btn-sm">
+            <a href="{{url_for('delete', todo_id=todo['id'])}}" class="btn d-inline btn-outline-danger btn-sm">
                 Borrar
             </a>
         </span>
         <span class="p-2">
-            <a href="{{url_for('update', todo_id=todo.id, done=todo.to_dict().done)}}" class="btn d-inline btn-outline-primary btn-sm">
+            <a href="{{url_for('update', todo_id=todo['id'], done=todo['done'])}}" class="btn d-inline btn-outline-primary btn-sm">
                 Actualizar
             </a>
         </span>

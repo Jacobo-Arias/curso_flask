@@ -5,7 +5,7 @@ from . import auth
 from flask_login import login_user, current_user, login_required, logout_user
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from app.firestore_service import get_user, user_put
+from app.mongo_services import get_user, user_put
 from app.models import UserData, UserModel
 
 @auth.route('/login', methods = ['GET','POST'])
@@ -24,8 +24,8 @@ def login():
         password = login_form.password.data
         user_doc = get_user(username)
 
-        if user_doc.to_dict() is not None:
-            password_from_db = user_doc.to_dict()['password']
+        if user_doc is not None:
+            password_from_db = user_doc['password']
 
             if check_password_hash(password_from_db, password):
                 user_data = UserData(username,password)
@@ -64,7 +64,7 @@ def singup():
 
         user_doc = get_user(username)
 
-        if user_doc.to_dict() is None:
+        if user_doc is None:
             password_hash = generate_password_hash(password)
             user_data = UserData(username, password_hash)
             user_put(user_data)
